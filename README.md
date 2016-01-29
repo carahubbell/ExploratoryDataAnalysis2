@@ -1,10 +1,9 @@
 # Exploratory Data Analysis Final Project
  
-##Exploring Trends in PM2.5 Emissions in the United States 
-##from 1999 to 2008
+##Exploring Trends in PM2.5 Emissions in the United States from 1999 to 2008
  
  
-####Fine particulate matter (PM2.5) is an ambient air pollutant for which there is strong evidence that it is harmful to human health. In the United States, the Environmental Protection Agency (EPA) is tasked with setting national ambient air quality standards for fine PM and for tracking the emissions of this pollutant into the atmosphere. Approximately every 3 years, the EPA releases its database on emissions of PM2.5. This database is known as the National Emissions Inventory (NEI). You can read more information about the NEI at the EPA National Emissions Inventory web site.
+Fine particulate matter (PM2.5) is an ambient air pollutant for which there is strong evidence that it is harmful to human health. In the United States, the Environmental Protection Agency (EPA) is tasked with setting national ambient air quality standards for fine PM and for tracking the emissions of this pollutant into the atmosphere. Approximately every 3 years, the EPA releases its database on emissions of PM2.5. This database is known as the National Emissions Inventory (NEI). You can read more information about the NEI at the EPA National Emissions Inventory web site.
 
 For each year and for each type of PM source, the NEI records how many tons of PM2.5 were emitted from that source over the course of the entire year. The data used for this assignment are from 1999, 2002, 2005, and 2008.
 
@@ -38,7 +37,7 @@ Source Classification Code Table (Source_Classification_Code.rds): This table pr
 
 Each of the two files were read using the `readRDS()` function in R. Since there are nearly two million observations in the PM2.5 Emissions Summary file, it does take some time for the data to be read into R. 
 
-##The overall goal of this project is to explore the National Emissions Inventory database and see what it says about fine particulate matter pollution in the United states over the 10-year period 1999–2008. 
+###The overall goal of this project is to explore the National Emissions Inventory database and see what it says about fine particulate matter pollution in the United states over the 10-year period 1999–2008. 
 
 ###Question 1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? Using the base plotting system, make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008.
 
@@ -89,4 +88,36 @@ For much of the analysis, means were used to investigate patterns over time. How
 > skewness(data2008$Emissions)
 [1] 159.9864
 ```
-where `data1999`, etc. represents all data in the NEI file from the year 1999. 
+where `data1999`, etc. represents all data in the NEI file from the year 1999. We also see that:
+
+```R
+> summary(data1999$Emissions)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+    0.00     0.01     0.04     6.62     0.26 66700.00 
+> summary(data2002$Emissions)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+     0.0      0.0      0.0      3.3      0.1 647000.0 
+> summary(data2005$Emissions)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+    0.00     0.00     0.01     3.18     0.07 58900.00 
+> summary(data2008$Emissions)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+    0.000     0.000     0.005     1.753     0.062 20800.000 
+```
+
+It would appear that means are not the best analysis to use to analyze trends over time because of the fact that we have such skewed data. Another measure to consider would be the sum of all emissions observations within each of the years. However, we can see that:
+
+```R
+> length(data1999$Emissions)
+[1] 1108469
+> length(data2002$Emissions)
+[1] 1698677
+> length(data2005$Emissions)
+[1] 1713850
+> length(data2008$Emissions)
+[1] 1976655
+```
+
+This shows that there are 1.8 times as many observations in 2008 as there were in 1999. This is due to the fact that more source types were included across more counties over the years. Thus, it does not seem reasonable to use sums to draw conclusions. It is because of these that we have chosen, in most cases, to use means over sums in an attempt to say something about PM2.5 emissions between 1999 and 2008. A better analysis would include comparison across years for each individual site and type of observation. However, that is beyond the scope of this project.
+
+With this initial rough exploration of the EPA's PM2.5 data, we have shown that there is indeed a decrease in the overall PM2.5 emissions in the United States. 
