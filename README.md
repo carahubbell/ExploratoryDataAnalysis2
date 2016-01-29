@@ -39,37 +39,37 @@ Each of the two files were read using the `readRDS()` function in R. Since there
 
 ###The overall goal of this project is to explore the National Emissions Inventory database and see what it says about fine particulate matter pollution in the United states over the 10-year period 1999–2008. 
 
-###Question 1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? Using the base plotting system, make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008.
+Question 1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? Using the base plotting system, make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008.
 
 ![plot1](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot1.png)
 
 This graph shows the mean PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in the United States. Here, we consider all observations (from all sites and for all types) of PM2.5 emissions within each of the years. We use the mean to control for the differences in numbers of observations for each year. Thus, we can conclude that the total PM2.5 emissions has decreased from 1999 to 2008. The code for this and all other plots can be found in this repo.
 
-###Question 2. Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008? Use the base plotting system to make a plot answering this question.
+Question 2. Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008? Use the base plotting system to make a plot answering this question.
 
 ![plot2](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot2.png)
 
 This graph shows the mean PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in Baltimore City, Maryland. Here, we consider all observations in Baltimore City of PM2.5 emissions within each of the years. We use the mean to control for the differences in numbers of observations for each year. Thus, we can conclude that the total PM2.5 emissions in Baltimore City has decreased from 1999 to 2008.
 
-###Question 3. Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City? Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to make a plot answer this question.
+Question 3. Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City? Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to make a plot answer this question.
 
 ![plot3](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot3.png)
 
 This graph shows the total PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in Baltimore City, Maryland by source type (point, nonpoint, onroad, nonroad). From the graph, we can see that the total PM2.5 emissions in Baltimore City has decreased for three of the four source types (nonroad, nonpoint, and onroad) over the given time period, but increased for the point source type.
 
-###Question 4. Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
+Question 4. Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
 
 ![plot4](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot4.png)
 
 This graph shows the total PM2.5 emissions from all coal combustion-related sources measured in tons over the years 1999, 2002, 2005, and 2008 in the United States. From the graph, we can see that the total PM2.5 emissions from coal combustion sources has decreased over the given time period.
 
-###Question 5. How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
+Question 5. How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
 
 ![plot5](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot5.png)
 
 This graph shows the total PM2.5 emissions from all vehicle sources measured in tons over the years 1999, 2002, 2005, and 2008 in the Baltimore City, Maryland. From the graph, we can see that the total PM2.5 emissions from vehicle sources has decreased over the given time period.
 
-###Question 6. Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California (fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions?
+Question 6. Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California (fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions?
 
 ![plot6](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot6.png)
 
