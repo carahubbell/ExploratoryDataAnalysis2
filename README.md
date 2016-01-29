@@ -88,7 +88,7 @@ For much of the analysis, means were used to investigate patterns over time. How
 > skewness(data2008$Emissions)
 [1] 159.9864
 ```
-where `data1999`, etc. represents all data in the NEI file from the year 1999. We also see that:
+where `data1999`, etc. represents all data in the NEI file from the year 1999, etc. We also see that:
 
 ```R
 > summary(data1999$Emissions)
