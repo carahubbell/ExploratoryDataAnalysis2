@@ -105,7 +105,7 @@ where `data1999`, etc. represents all data in the NEI file from the year 1999, e
     0.000     0.000     0.005     1.753     0.062 20800.000 
 ```
 
-It would appear that means are not the best analysis to use to analyze trends over time because of the fact that we have such skewed data. Another measure to consider would be the sum of all emissions observations within each of the years. However, we can see that:
+It would appear that means are not the best measure to analyze trends over time because of the fact that we have such skewed data. Another measure to consider would be the sum of all emissions observations within each of the years. However, we can see that:
 
 ```R
 > length(data1999$Emissions)
