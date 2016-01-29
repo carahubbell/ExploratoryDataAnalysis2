@@ -118,6 +118,6 @@ It would appear that means are not the best analysis to use to analyze trends ov
 [1] 1976655
 ```
 
-This shows that there are 1.8 times as many observations in 2008 as there were in 1999. This is due to the fact that more source types were included across more counties over the years. Thus, it does not seem reasonable to use sums to draw conclusions. It is because of these that we have chosen, in most cases, to use means over sums in an attempt to say something about PM2.5 emissions between 1999 and 2008. A better analysis would include comparison across years for each individual site and type of observation. However, that is beyond the scope of this project.
+This shows that there are 1.8 times as many observations in 2008 as there were in 1999. This is due to the fact that more source types were included across more counties over the years. Thus, it does not seem reasonable to use sums to draw conclusions. It is because of this that we have chosen, in most cases, to use means over sums in an attempt to say something about PM2.5 emissions between 1999 and 2008. A better analysis would include comparison across years for each individual site and type of observation. However, that is beyond the scope of this project.
 
 With this initial rough exploration of the EPA's PM2.5 data, we have shown that there is indeed a decrease in the overall PM2.5 emissions in the United States. 
