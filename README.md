@@ -39,41 +39,206 @@ Each of the two files were read using the `readRDS()` function in R. Since there
 
 ###The overall goal of this project is to explore the National Emissions Inventory database and see what it says about fine particulate matter pollution in the United states over the 10-year period 1999–2008. 
 
+To run any of these scripts, the user must have both data files in the working directory. The files are available in this repo.
+
 Question 1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? Using the base plotting system, make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008.
 
 ![plot1](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot1.png)
 
-This graph shows the mean PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in the United States. Here, we consider all observations (from all sites and for all types) of PM2.5 emissions within each of the years. We use the mean to control for the differences in numbers of observations for each year. Thus, we can conclude that the total PM2.5 emissions has decreased from 1999 to 2008. The code for this and all other plots can be found in this repo.
+This graph shows the mean PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in the United States. Here, we consider all observations (from all sites and for all types) of PM2.5 emissions within each of the years. We use the mean to control for the differences in numbers of observations for each year. Thus, we can conclude that the total PM2.5 emissions has decreased from 1999 to 2008. The following code generates this plot:
+
+```R
+# Read the data into R.
+nei<-readRDS("summarySCC_PM25.rds")
+
+#Calculate means of Emissions by year
+x<-tapply(nei$Emissions, nei$year, mean)
+
+#Create the plot in a png file
+png("plot1efficient.png", width=480, height=480, units="px")
+
+barplot(x, col=rainbow(4, s = 1, v = 1, start = .5, end = .7, alpha = 1))
+
+title(main="U.S. Mean PM2.5 Emissions by Year (Tons)", xlab="Year", 
+      ylab="Mean PM2.5 Emissions (Tons)")
+
+dev.off()
+```
 
 Question 2. Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008? Use the base plotting system to make a plot answering this question.
 
 ![plot2](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot2.png)
 
-This graph shows the mean PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in Baltimore City, Maryland. Here, we consider all observations in Baltimore City of PM2.5 emissions within each of the years. We use the mean to control for the differences in numbers of observations for each year. Thus, we can conclude that the total PM2.5 emissions in Baltimore City has decreased from 1999 to 2008.
+This graph shows the mean PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in Baltimore City, Maryland. Here, we consider all observations in Baltimore City of PM2.5 emissions within each of the years. We use the mean to control for the differences in numbers of observations for each year. Thus, we can conclude that the total PM2.5 emissions in Baltimore City has decreased from 1999 to 2008. The following code generates this plot:
+
+```R
+# Read the data into R.
+require(dplyr)
+nei<-readRDS("summarySCC_PM25.rds")
+
+#Take only data from Baltimore City
+data<-filter(nei, fips=="24510")
+
+#Calculate the mean of Emissions by year
+x<-tapply(data$Emissions, data$year, mean)
+
+#Create the plot in a png file
+png("plot2.png", width=480, height=480, units="px")
+
+barplot(x, col=rainbow(4, s = 1, v = 1, start = .21, end = .43, alpha = 1))
+
+title(main="Baltimore City Mean PM2.5 Emissions (Tons)", xlab="Year", 
+      ylab="Mean PM2.5 Emissions (Tons)")
+
+dev.off()
+``
 
 Question 3. Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City? Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to make a plot answer this question.
 
 ![plot3](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot3.png)
 
-This graph shows the total PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in Baltimore City, Maryland by source type (point, nonpoint, onroad, nonroad). From the graph, we can see that the total PM2.5 emissions in Baltimore City has decreased for three of the four source types (nonroad, nonpoint, and onroad) over the given time period, but increased for the point source type.
+This graph shows the total PM2.5 emissions measured in tons over the years 1999, 2002, 2005, and 2008 in Baltimore City, Maryland by source type (point, nonpoint, onroad, nonroad). From the graph, we can see that the total PM2.5 emissions in Baltimore City has decreased for three of the four source types (nonroad, nonpoint, and onroad) over the given time period, but increased for the point source type. The following code generates this plot:
+
+```R
+# Read the data into R.
+require(dplyr)
+nei<-readRDS("summarySCC_PM25.rds")
+scc<-readRDS("Source_Classification_Code.rds")
+
+#Only consider data from Baltimore City, MD
+data<-filter(nei, fips=="24510")
+
+#Create the plot in a png file
+png("plot3.png", width=480, height=480, units="px")
+
+g<-ggplot(data,aes(factor(year),Emissions,fill=type)) +
+  geom_bar(stat="identity") +
+  scale_fill_manual(values=c("#330006", "#660033", "#660066", "#990033")) +
+  theme_bw() + guides(fill=FALSE)+
+  facet_grid(.~type,scales = "free",space="free") + 
+  xlab("Year") +
+  ylab("Total PM2.5 Emission (Tons)") + 
+  ggtitle("PM2.5 Emissions in Baltimore City by Source Type")
+
+print(g)
+
+dev.off()
+```
 
 Question 4. Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
 
 ![plot4](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot4.png)
 
-This graph shows the total PM2.5 emissions from all coal combustion-related sources measured in tons over the years 1999, 2002, 2005, and 2008 in the United States. From the graph, we can see that the total PM2.5 emissions from coal combustion sources has decreased over the given time period.
+This graph shows the total PM2.5 emissions from all coal combustion-related sources measured in tons over the years 1999, 2002, 2005, and 2008 in the United States. From the graph, we can see that the total PM2.5 emissions from coal combustion sources has decreased over the given time period. The following code generates this plot:
+
+```R
+# Read the data into R. 
+nei<-readRDS("summarySCC_PM25.rds") 
+scc<-readRDS("Source_Classification_Code.rds") 
+
+#Only consider data from coal combustion-related sources 
+combustion <- grepl("comb", scc$SCC.Level.One, ignore.case=TRUE) 
+coal <- grepl("coal", scc$SCC.Level.Four, ignore.case=TRUE) 
+
+combcoal <- (combustion & coal) 
+combcoalscc <- scc[combcoal,]$SCC 
+combcoalnei <- nei[nei$SCC %in% combcoalscc,] 
+
+x<-tapply(combcoalnei$Emissions, combcoalnei$year, sum)
+
+#Create the plot in a png file 
+png("plot4.png", width=480, height=480, units="px") 
+
+barplot(x, col=rainbow(4, start = 1, end = .15, alpha = 1)) 
+
+title(main="Total PM2.5 Emissions from Coal Combustion Sources", 
+      xlab="Year", ylab="Total PM2.5 Emissions (Tons)") 
+
+dev.off()
+```
 
 Question 5. How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
 
 ![plot5](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot5.png)
 
-This graph shows the total PM2.5 emissions from all vehicle sources measured in tons over the years 1999, 2002, 2005, and 2008 in the Baltimore City, Maryland. From the graph, we can see that the total PM2.5 emissions from vehicle sources has decreased over the given time period.
+This graph shows the total PM2.5 emissions from all vehicle sources measured in tons over the years 1999, 2002, 2005, and 2008 in the Baltimore City, Maryland. From the graph, we can see that the total PM2.5 emissions from vehicle sources has decreased over the given time period. The following code generates this plot:
 
-Question 6. Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California (fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions?
+```R
+# Read the data into R.
+require(dplyr)
+nei<-readRDS("summarySCC_PM25.rds")
+scc<-readRDS("Source_Classification_Code.rds")
+
+#Only consider Baltimore City, MD
+baltimore<-filter(nei, fips=="24510")
+
+#Consider all motor vehicle sources in Baltimore City
+vehicle <- grepl("vehicle", scc$SCC.Level.Two, ignore.case=TRUE)
+vehiclescc <- scc[vehicle,]$SCC
+vehiclebc <- baltimore[baltimore$SCC %in% vehiclescc,]
+
+x<-tapply(vehiclebc$Emissions, vehiclebc$year, sum)
+
+#Create the plot in a png file
+png("plot5.png", width=480, height=480, units="px")
+
+barplot(x, col=rainbow(4, s = 1, v = 1, start = .98, end = .08, alpha = 1))
+
+title(main="Baltimore City Total PM2.5 Emissions from Vehicles (Tons)", xlab="Year", 
+      ylab="Total Vehicle PM2.5 Emissions (Tons)")
+
+dev.off()
+```
+
+Question 6. Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California (fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions? 
 
 ![plot6](https://github.com/carahubbell/ExploratoryDataAnalysisFinalProject/blob/master/plot6.png)
 
-This graph shows the total PM2.5 emissions from all vehicle sources measured in tons over the years 1999, 2002, 2005, and 2008 in Baltimore City, Maryland and in Los Angeles, CA. From the graph, we can see that the total PM2.5 emissions from vehicle sources has decreased over the given time period in Baltimore City, but has increased with time in Los Angeles.
+This graph shows the total PM2.5 emissions from all vehicle sources measured in tons over the years 1999, 2002, 2005, and 2008 in Baltimore City, Maryland and in Los Angeles, CA. From the graph, we can see that the total PM2.5 emissions from vehicle sources has decreased over the given time period in Baltimore City, but has increased with time in Los Angeles. The following code generates this plot:
+
+```R
+# Read the data into R.
+require(dplyr)
+require(RColorBrewer)
+nei<-readRDS("summarySCC_PM25.rds")
+scc<-readRDS("Source_Classification_Code.rds")
+
+#Consider Baltimore City, MD and Los Angeles, CA
+baltimore<-filter(nei, fips=="24510")
+losangeles<-filter(nei, fips=="06037")
+
+#Consider all motor vehicle sources only
+vehicle <- grepl("vehicle", scc$SCC.Level.Two, ignore.case=TRUE)
+vehiclescc <- scc[vehicle,]$SCC
+
+vehiclebc <- baltimore[baltimore$SCC %in% vehiclescc,]
+vehiclela <- losangeles[losangeles$SCC %in% vehiclescc,]
+
+#Calculate the total for each year
+j<-tapply(vehiclebc$Emissions, vehiclebc$year, sum)
+
+k<-tapply(vehiclela$Emissions, vehiclela$year, sum)
+
+#Create the plot in a png file
+png("plot6.png", width=480, height=480, units="px")
+
+par(mfrow=c(1,2), mar=c(5, 4, 4, 2), oma=c(0, 0, 2, 0))
+
+barplot(j, col=brewer.pal(8,"PRGn"), ylim=c(0,7500))
+
+title(main="Baltimore City", xlab="Year", 
+      ylab="Total Vehicle PM2.5 Emissions (Tons)")
+
+barplot(k, col=brewer.pal(8,"PRGn"), ylim=c(0,7500))
+
+title(main="Los Angeles", xlab="Year", 
+      ylab="Total Vehicle PM2.5 Emissions (Tons)")
+
+mtext("Total Vehicle PM2.5 Emissions from 1999-2008", side=3, outer=TRUE, cex=1.5)
+
+dev.off()
+```
+
 
 ###Limitations and Conclusions 
 For much of the analysis, means were used to investigate patterns over time. However, the data are extremely skewed right. Using the `skewness()` function from the `e1071` package, we see that:
