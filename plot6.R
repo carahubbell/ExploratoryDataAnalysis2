@@ -11,8 +11,8 @@
 # Read the data into R.
 require(dplyr)
 require(RColorBrewer)
-#nei<-readRDS("summarySCC_PM25.rds")
-#scc<-readRDS("Source_Classification_Code.rds")
+nei<-readRDS("summarySCC_PM25.rds")
+scc<-readRDS("Source_Classification_Code.rds")
 
 # The question this plot explores:
 # ---------------------------------------------------------------------------------
@@ -33,31 +33,21 @@ vehiclebc <- baltimore[baltimore$SCC %in% vehiclescc,]
 vehiclela <- losangeles[losangeles$SCC %in% vehiclescc,]
 
 #Calculate the total for each year
-sumvbc<-vector()
-sumvbc[1]<-sum(vehiclebc$Emissions[vehiclebc$year==1999])
-sumvbc[2]<-sum(vehiclebc$Emissions[vehiclebc$year==2002])
-sumvbc[3]<-sum(vehiclebc$Emissions[vehiclebc$year==2005])
-sumvbc[4]<-sum(vehiclebc$Emissions[vehiclebc$year==2008])
+j<-tapply(vehiclebc$Emissions, vehiclebc$year, sum)
 
-sumvla<-vector()
-sumvla[1]<-sum(vehiclela$Emissions[vehiclela$year==1999])
-sumvla[2]<-sum(vehiclela$Emissions[vehiclela$year==2002])
-sumvla[3]<-sum(vehiclela$Emissions[vehiclela$year==2005])
-sumvla[4]<-sum(vehiclela$Emissions[vehiclela$year==2008])
-
-years<-c("1999","2002","2005","2008")
+k<-tapply(vehiclela$Emissions, vehiclela$year, sum)
 
 #Create the plot in a png file
 png("plot6.png", width=480, height=480, units="px")
 
 par(mfrow=c(1,2), mar=c(5, 4, 4, 2), oma=c(0, 0, 2, 0))
 
-barplot(sumvbc, names.arg=years, col=brewer.pal(8,"PRGn"), ylim=c(0,7500))
+barplot(j, col=brewer.pal(8,"PRGn"), ylim=c(0,7500))
 
 title(main="Baltimore City", xlab="Year", 
       ylab="Total Vehicle PM2.5 Emissions (Tons)")
 
-barplot(sumvla, names.arg=years, col=brewer.pal(8,"PRGn"), ylim=c(0,7500))
+barplot(k, col=brewer.pal(8,"PRGn"), ylim=c(0,7500))
 
 title(main="Los Angeles", xlab="Year", 
       ylab="Total Vehicle PM2.5 Emissions (Tons)")

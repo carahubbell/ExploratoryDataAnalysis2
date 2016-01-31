@@ -9,9 +9,8 @@
 ## directory first!
 
 # Read the data into R.
-#require(dplyr)
-#nei<-readRDS("summarySCC_PM25.rds")
-#scc<-readRDS("Source_Classification_Code.rds")
+require(dplyr)
+nei<-readRDS("summarySCC_PM25.rds")
 
 # The question this plot explores:
 # ---------------------------------------------------------------------------------
@@ -20,26 +19,17 @@
 # answering this question.
 # ---------------------------------------------------------------------------------
 
-#Separate the data by year, only considering Baltimore City, MD
-data1999bc<-filter(nei,year==1999, fips=="24510")
-data2002bc<-filter(nei,year==2002, fips=="24510")
-data2005bc<-filter(nei,year==2005, fips=="24510")
-data2008bc<-filter(nei,year==2008, fips=="24510")
+#Take only data from Baltimore City
+data<-filter(nei, fips=="24510")
 
-#Calculate the mean for each year
-meansbc<-vector()
-meansbc[1]<-mean(data1999bc$Emissions)
-meansbc[2]<-mean(data2002bc$Emissions)
-meansbc[3]<-mean(data2005bc$Emissions)
-meansbc[4]<-mean(data2008bc$Emissions)
+#Calculate the mean of Emissions by year
+x<-tapply(data$Emissions, data$year, mean)
 
-years<-c("1999","2002","2005","2008")
 
 #Create the plot in a png file
 png("plot2.png", width=480, height=480, units="px")
 
-barplot(meansbc, names.arg=years, 
-        col=rainbow(4, s = 1, v = 1, start = .21, end = .43, alpha = 1))
+barplot(x, col=rainbow(4, s = 1, v = 1, start = .21, end = .43, alpha = 1))
 
 title(main="Baltimore City Mean PM2.5 Emissions (Tons)", xlab="Year", 
       ylab="Mean PM2.5 Emissions (Tons)")

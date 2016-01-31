@@ -23,12 +23,12 @@ scc<-readRDS("Source_Classification_Code.rds")
 # ---------------------------------------------------------------------------------
 
 #Only consider data from Baltimore City, MD
-databc<-filter(nei, fips=="24510")
+data<-filter(nei, fips=="24510")
 
 #Create the plot in a png file
 png("plot3.png", width=480, height=480, units="px")
 
-g<-ggplot(databc,aes(factor(year),Emissions,fill=type)) +
+g<-ggplot(data,aes(factor(year),Emissions,fill=type)) +
   geom_bar(stat="identity") +
   scale_fill_manual(values=c("#330006", "#660033", "#660066", "#990033")) +
   theme_bw() + guides(fill=FALSE)+
